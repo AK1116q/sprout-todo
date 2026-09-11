@@ -37,7 +37,7 @@ function register(){
 async function boot(){
  savePath=path.join(app.getPath('userData'),'garden.json');load();
  pet=new BrowserWindow({width:184,height:218,show:false,frame:false,transparent:true,hasShadow:false,resizable:false,maximizable:false,minimizable:false,fullscreenable:false,skipTaskbar:true,alwaysOnTop:true,backgroundColor:'#00000000',webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true,backgroundThrottling:true}});
- secure(pet);petHome();pet.setAlwaysOnTop(true,'floating');pet.setIgnoreMouseEvents(true,{forward:true});register();await pet.loadFile(path.join(__dirname,'pet.html'));if(!testing)pet.showInactive();pet.on('moved',clampPet);watchDev();
+ secure(pet);petHome();pet.setAlwaysOnTop(true,'floating');pet.setIgnoreMouseEvents(false);register();await pet.loadFile(path.join(__dirname,'pet.html'));if(!testing)pet.showInactive();pet.on('moved',clampPet);watchDev();
  const icon=nativeImage.createFromPath(path.join(__dirname,'../assets/icon.svg'));tray=new Tray(icon.resize({width:20,height:20}));tray.setToolTip('小芽 · 喝水后点小花浇水');tray.setContextMenu(menu());tray.on('double-click',showPet);
  screen.on('display-metrics-changed',clampPet);screen.on('display-removed',clampPet);powerMonitor.on('resume',tick);
  timer=setInterval(tick,1000);if(!state.onboarded&&!testing)openPanel('welcome');tick();readyResolve();
