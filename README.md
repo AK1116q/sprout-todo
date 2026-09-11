@@ -32,6 +32,7 @@
 
 ```sh
 npm install --no-package-lock
+npm run dev
 npm start
 npm test
 npm run check
@@ -39,7 +40,7 @@ npm run smoke
 npm run dist
 ```
 
-便携程序生成于 `release/`。无需安装，双击运行。Electron 提供透明置顶窗口和系统托盘；包体包含独立运行环境。
+开发时运行 `npm run dev`：程序启动后会监听 `app/` 下的 HTML、CSS、JS 和像素资源，保存文件后自动刷新桌宠及当前面板，不需要重新下载或重新打包。需要给别人使用时再运行 `npm run dist`，便携程序生成于 `release/`。无需安装，双击运行。
 
 ## 数据与提醒
 
