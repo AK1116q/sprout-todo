@@ -42,7 +42,7 @@ function apply(s,action,payload={},now=Date.now()){
   case 'collect':{if(next.pendingCoins===0)throw new Error('每浇水 3 次，小花会送你 5 枚金币');result.collected=next.pendingCoins;next.coins+=next.pendingCoins;next.pendingCoins=0;break;}
   case 'buy':{const item=CATALOG.find(i=>i.id===payload.id);if(!item)throw new Error('没有找到这件装扮');if(!next.owned.includes(item.id)){if(next.coins<item.price)throw new Error('金币还不够，慢慢来');next.coins-=item.price;next.owned.push(item.id);}next.equipped[item.type]=item.id;result.item=item.name;break;}
   case 'stand':{break;}
-  case 'tick':{result.due=[];if(next.onboarded&&next.settings.waterEnabled&&now>=next.nextWaterAt&&!next.waterNotified){next.waterNotified=true;next.waterPromptAt=next.nextWaterAt;next.waterPrompts.push({promptAt:next.nextWaterAt,clickedAt:null,responseMs:null});if(next.waterPrompts.length>90)next.waterPrompts.shift();result.due.push('water');}break;}
+  case 'tick':{result.due=[];if(next.onboarded&&next.settings.waterEnabled&&now>=next.nextWaterAt&&!next.waterNotified){next.waterNotified=true;next.waterPromptAt=now;next.waterPrompts.push({promptAt:now,clickedAt:null,responseMs:null});if(next.waterPrompts.length>90)next.waterPrompts.shift();result.due.push('water');}break;}
   default:throw new Error('未知操作');
  }
  validate(next);return{state:next,result};
