@@ -1,0 +1,24 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'"><title>小芽 · Sprout</title><link rel="stylesheet" href="panel.css"></head><body>
+<header><span class="wordmark">✳ 小芽 <small>SPROUT</small></span><button id="close" aria-label="关闭面板">×</button></header>
+<main>
+ <section id="settings-page">
+  <div class="welcome-art"><canvas id="welcome-plant" width="64" height="64"></canvas><div><span class="eyebrow" id="settings-eyebrow">MEET YOUR LITTLE FRIEND</span><h1 id="settings-title">让小花陪你，<br>照顾好自己。</h1></div></div>
+  <p id="settings-subtitle" class="subtitle">先定一个舒服的节奏。剩下的，交给小芽。</p>
+  <form id="settings-form">
+   <div class="setting"><div class="setting-top"><label for="water-minutes">喝水提醒</label><label class="switch"><input id="water-enabled" type="checkbox" checked aria-label="开启喝水提醒"><span></span></label></div><div class="interval"><span>每隔</span><input id="water-minutes" type="number" min="1" max="180" value="30" required><span>分钟，喝一口水</span></div></div>
+   <div class="setting"><div class="setting-top"><label for="stand-minutes">起身提醒</label><label class="switch"><input id="stand-enabled" type="checkbox" checked aria-label="开启起身提醒"><span></span></label></div><div class="interval"><span>每隔</span><input id="stand-minutes" type="number" min="1" max="180" value="50" required><span>分钟，站起来走走</span></div></div>
+   <label class="notification-setting"><input id="notifications" type="checkbox" checked> 同时显示系统通知 <span>安静，无提示音</span></label>
+   <div class="howto"><span>01</span> 先喝水，再点击小花浇水。<br><span>02</span> 每浇水 3 次，点击收集 5 枚金币。</div>
+   <button id="save-settings" class="primary" type="submit">开始陪伴</button>
+   <p class="fineprint">随时可修改 · 关闭电脑后暂停陪伴</p>
+  </form>
+ </section>
+ <section id="shop-page" hidden>
+  <div class="shop-heading"><div><span class="eyebrow">LITTLE THINGS, LITTLE JOY</span><h1>小小商店</h1></div><span class="wallet">◈ <strong id="wallet">0</strong></span></div>
+  <p class="subtitle">把每一次自我照顾，换成一点小欢喜。</p>
+  <div class="tabs" role="tablist" aria-label="商店分类"><button role="tab" aria-selected="true" data-type="pot">花盆</button><button role="tab" aria-selected="false" data-type="can">浇水壶</button><button role="tab" aria-selected="false" data-type="flower">花的品种</button></div>
+  <div id="items" class="items" role="tabpanel"></div>
+  <p class="shop-foot">已收集 <strong id="owned">3</strong> / 12 件 · 装扮不影响提醒</p>
+ </section>
+</main><div id="message" role="status" aria-live="polite"></div><script src="pixels.js"></script><script src="panel.js"></script></body></html>
+
