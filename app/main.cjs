@@ -31,7 +31,6 @@ function register(){
  ipcMain.handle('sprout:act',(e,type,payload)=>{if(!trusted(e)||!['settings','water','collect','buy'].includes(type))return{ok:false,error:'操作不可用'};const result=action(type,payload);if(result.ok&&type==='settings'){if(panel&&!panel.isDestroyed())panel.close();showPet();}return result;});
  ipcMain.handle('sprout:panel',(e,page)=>{if(trusted(e))openPanel(page);});
  ipcMain.on('sprout:close-panel',e=>{if(panel&&e.sender===panel.webContents)panel.close();});
- ipcMain.on('sprout:pointer',(e,interactive)=>{if(pet&&e.sender===pet.webContents&&typeof interactive==='boolean')pet.setIgnoreMouseEvents(!interactive,{forward:true});});
  ipcMain.on('sprout:menu',e=>{if(trusted(e))menu().popup({window:pet});});
 }
 async function boot(){
