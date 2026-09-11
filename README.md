@@ -31,7 +31,7 @@
 需要 Node.js 22.12+，Windows x64。
 
 ```sh
-npm ci
+npm install --no-package-lock
 npm start
 npm test
 npm run check
