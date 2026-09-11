@@ -1,0 +1,27 @@
+{
+  "name": "sprout-desktop",
+  "productName": "Sprout",
+  "version": "1.0.0",
+  "description": "A tiny pixel plant that reminds you to drink water and stand up.",
+  "main": "app/main.cjs",
+  "author": "AK1116q",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/state.test.cjs",
+    "smoke": "electron tests/smoke.cjs",
+    "check": "node --check app/main.cjs && node --check app/preload.cjs && node --check app/state.cjs && node --check app/pet.js && node --check app/panel.js && node --check app/pixels.js",
+    "dist": "electron-builder --win portable --x64"
+  },
+  "devDependencies": { "electron": "44.3.0", "electron-builder": "26.15.3" },
+  "build": {
+    "appId": "com.ak1116q.sprout",
+    "productName": "Sprout",
+    "artifactName": "Sprout-${version}-Windows.${ext}",
+    "directories": { "output": "release" },
+    "files": ["app/**/*", "assets/**/*", "package.json"],
+    "win": { "target": ["portable"], "signAndEditExecutable": false },
+    "portable": { "artifactName": "Sprout-${version}-Windows.exe" }
+  }
+}
+
