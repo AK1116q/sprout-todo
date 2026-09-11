@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "start": "electron .",
+    "dev": "node tools/dev.cjs",
     "test": "node --test tests/state.test.cjs",
     "smoke": "electron tests/smoke.cjs",
     "check": "node --check app/main.cjs && node --check app/preload.cjs && node --check app/state.cjs && node --check app/pet.js && node --check app/panel.js && node --check app/pixels.js",
