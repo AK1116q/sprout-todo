@@ -2,7 +2,7 @@
   "name": "sprout-desktop",
   "productName": "Sprout",
   "version": "1.0.0",
-  "description": "A tiny pixel plant that reminds you to drink water and stand up.",
+  "description": "A tiny pixel plant that reminds you to drink water.",
   "main": "app/main.cjs",
   "author": "AK1116q",
   "private": true,
