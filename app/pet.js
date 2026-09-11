@@ -1,9 +1,9 @@
 'use strict';
 const $=s=>document.querySelector(s),canvas=$('#plant-canvas'),ctx=canvas.getContext('2d');
-let state,bend=1,animation=0,frame=0,busy=false,messageUntil=0,lastCursor='',lastInteractive=false,raf=0;
+let state,bend=1,animation=0,frame=0,busy=false,messageUntil=0,lastCursor='',raf=0,sway=0;
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function say(text,ms=4200){$('#bubble').textContent=text;messageUntil=Date.now()+ms;$('#bubble').classList.add('show');}
-function draw(){if(!state)return;const target=state.wilted?1:0;bend=reduced?target:bend+(target-bend)*.15;if(Math.abs(target-bend)<.01)bend=target;PixelArt.flower(ctx,{...state.equipped,bend,frame:frame++,watering:Date.now()<animation});if(bend!==target||Date.now()<animation)raf=requestAnimationFrame(draw);else raf=0;}
+function draw(){if(!state)return;const target=state.wilted?1:0;bend=reduced?target:bend+(target-bend)*.15;if(Math.abs(target-bend)<.01)bend=target;sway=reduced?0:Math.sin(frame/18)*.55;PixelArt.flower(ctx,{...state.equipped,bend,sway,frame:frame++,watering:Date.now()<animation});if(!reduced||bend!==target||Date.now()<animation)raf=requestAnimationFrame(draw);else raf=0;}
 function render(next){state=next;$('#coins').textContent=String(state.coins);$('#pending').textContent=`+${state.pendingCoins}`;$('#collect').hidden=state.pendingCoins===0;$('#stand').hidden=!state.standDue;$('#footnote').hidden=state.standDue;
  if(state.equipped.can!==lastCursor){const c=document.createElement('canvas');c.width=c.height=32;PixelArt.can(c.getContext('2d'),state.equipped.can);document.body.style.setProperty('--watering-cursor',`url("${c.toDataURL()}") 3 12, pointer`);lastCursor=state.equipped.can;}
  if(Date.now()>messageUntil){$('#bubble').textContent=!state.onboarded?'先设置一下我们的节奏吧':state.waterDue?'我有点渴，你喝水了吗？':state.standDue?'起来走走，回来告诉我吧':'喝水后，点一下给我浇水';$('#bubble').classList.toggle('show',state.waterDue||state.standDue||!state.onboarded);}
@@ -15,8 +15,6 @@ $('#stand').addEventListener('click',async()=>{const r=await sprout.act('stand')
 $('#shop').addEventListener('click',()=>sprout.panel('shop'));$('#settings').addEventListener('click',()=>sprout.panel(state.onboarded?'settings':'welcome'));
 document.addEventListener('contextmenu',e=>{e.preventDefault();sprout.menu();});
 // Only the small visible plant and controls capture clicks; the rest passes through.
-document.addEventListener('mousemove',e=>{const element=e.target.closest('[data-interactive]');let hit=!!element;if(element?.id==='plant'){const r=canvas.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)*64/r.width),y=Math.floor((e.clientY-r.top)*64/r.height);hit=x>=0&&x<64&&y>=0&&y<64&&ctx.getImageData(x,y,1,1).data[3]>50;}document.body.classList.toggle('hovered',hit);if(hit!==lastInteractive){lastInteractive=hit;sprout.pointer(hit);}});
-document.addEventListener('mouseleave',()=>{document.body.classList.remove('hovered');lastInteractive=false;sprout.pointer(false);});
-document.addEventListener('focusin',()=>sprout.pointer(true));
+document.addEventListener('mousemove',e=>{const hit=!!e.target.closest('[data-interactive]');document.body.classList.toggle('hovered',hit);});
 sprout.onState(render);sprout.get().then(render).catch(()=>say('无法载入小花，请重新启动。'));
 
