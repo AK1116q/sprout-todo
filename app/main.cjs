@@ -10,6 +10,7 @@ function save(next){fs.mkdirSync(path.dirname(savePath),{recursive:true});const 
 function broadcast(){const snapshot=view(state);for(const w of [pet,panel])if(w&&!w.isDestroyed())w.webContents.send('sprout:state',snapshot);}
 function action(type,payload){try{const change=apply(state,type,payload);if(JSON.stringify(change.state)!==JSON.stringify(state))save(change.state);broadcast();return{ok:true,...change.result,state:view(state)};}catch(error){return{ok:false,error:error.code?'无法保存进度，请检查磁盘空间和文件夹权限。':error.message};}}
 function secure(w){w.webContents.setWindowOpenHandler(()=>({action:'deny'}));w.webContents.on('will-navigate',e=>e.preventDefault());w.webContents.session.setPermissionRequestHandler((_wc,_permission,callback)=>callback(false));}
+function watchDev(){if(process.env.SPROUT_DEV!=='1')return;let pending;fs.watch(__dirname,{recursive:true},(_event,filename)=>{if(!filename||filename.endsWith('.log'))return;clearTimeout(pending);pending=setTimeout(()=>{for(const w of [pet,panel])if(w&&!w.isDestroyed())w.webContents.reload();},180);});}
 function petHome(){const area=screen.getPrimaryDisplay().workArea;pet.setPosition(area.x+area.width-204,area.y+area.height-238);}
 function clampPet(){if(!pet||pet.isDestroyed())return;const b=pet.getBounds(),a=screen.getDisplayMatching(b).workArea;pet.setPosition(Math.max(a.x,Math.min(b.x,a.x+a.width-b.width)),Math.max(a.y,Math.min(b.y,a.y+a.height-b.height)));}
 function showPet(){if(pet&&!pet.isDestroyed()){pet.showInactive();pet.setAlwaysOnTop(true,'floating');}}
@@ -36,7 +37,7 @@ function register(){
 async function boot(){
  savePath=path.join(app.getPath('userData'),'garden.json');load();
  pet=new BrowserWindow({width:184,height:218,show:false,frame:false,transparent:true,hasShadow:false,resizable:false,maximizable:false,minimizable:false,fullscreenable:false,skipTaskbar:true,alwaysOnTop:true,backgroundColor:'#00000000',webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true,backgroundThrottling:true}});
- secure(pet);petHome();pet.setAlwaysOnTop(true,'floating');pet.setIgnoreMouseEvents(true,{forward:true});register();await pet.loadFile(path.join(__dirname,'pet.html'));if(!testing)pet.showInactive();pet.on('moved',clampPet);
+ secure(pet);petHome();pet.setAlwaysOnTop(true,'floating');pet.setIgnoreMouseEvents(true,{forward:true});register();await pet.loadFile(path.join(__dirname,'pet.html'));if(!testing)pet.showInactive();pet.on('moved',clampPet);watchDev();
  const icon=nativeImage.createFromPath(path.join(__dirname,'../assets/icon.svg'));tray=new Tray(icon.resize({width:20,height:20}));tray.setToolTip('小芽 · 喝水后点小花浇水');tray.setContextMenu(menu());tray.on('double-click',showPet);
  screen.on('display-metrics-changed',clampPet);screen.on('display-removed',clampPet);powerMonitor.on('resume',tick);
  timer=setInterval(tick,1000);if(!state.onboarded&&!testing)openPanel('welcome');tick();readyResolve();
