@@ -2,15 +2,14 @@
 <header><span class="wordmark">✳ 小芽 <small>SPROUT</small></span><button id="close" aria-label="关闭面板">×</button></header>
 <main>
  <section id="settings-page">
-  <div class="welcome-art"><canvas id="welcome-plant" width="64" height="64"></canvas><div><span class="eyebrow" id="settings-eyebrow">MEET YOUR LITTLE FRIEND</span><h1 id="settings-title">让小花陪你，<br>照顾好自己。</h1></div></div>
-  <p id="settings-subtitle" class="subtitle">先定一个舒服的节奏。剩下的，交给小芽。</p>
+  <div class="welcome-art"><canvas id="welcome-plant" width="64" height="64"></canvas><div><span class="eyebrow" id="settings-eyebrow">SPROUT SETTINGS</span><h1 id="settings-title">提醒设置</h1></div></div>
+  <p id="settings-subtitle" class="subtitle">滚轮调整分钟数，保存即可。</p>
   <form id="settings-form">
    <div class="setting"><div class="setting-top"><label for="water-minutes">喝水提醒</label><label class="switch"><input id="water-enabled" type="checkbox" checked aria-label="开启喝水提醒"><span></span></label></div><div class="interval"><span>每隔</span><input id="water-minutes" type="number" min="1" max="180" value="30" required><span>分钟，喝一口水</span></div></div>
    <div class="setting"><div class="setting-top"><label for="stand-minutes">起身提醒</label><label class="switch"><input id="stand-enabled" type="checkbox" checked aria-label="开启起身提醒"><span></span></label></div><div class="interval"><span>每隔</span><input id="stand-minutes" type="number" min="1" max="180" value="50" required><span>分钟，站起来走走</span></div></div>
-   <label class="notification-setting"><input id="notifications" type="checkbox" checked> 同时显示系统通知 <span>安静，无提示音</span></label>
-   <div class="howto"><span>01</span> 先喝水，再点击小花浇水。<br><span>02</span> 每浇水 3 次，点击收集 5 枚金币。</div>
+   <label class="notification-setting"><input id="notifications" type="checkbox" checked> 系统通知</label>
    <button id="save-settings" class="primary" type="submit">开始陪伴</button>
-   <p class="fineprint">随时可修改 · 关闭电脑后暂停陪伴</p>
+   <p class="fineprint">喝水后点击小花即可浇水</p>
   </form>
  </section>
  <section id="shop-page" hidden>
