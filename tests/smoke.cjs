@@ -4,7 +4,7 @@ process.env.SPROUT_SMOKE_TEST='1';
 const temp=fs.mkdtempSync(path.join(os.tmpdir(),'sprout-smoke-'));app.setPath('userData',temp);
 const {initial}=require('../app/state.cjs');let seed=initial();seed.onboarded=true;seed.coins=100;fs.writeFileSync(path.join(temp,'garden.json'),JSON.stringify(seed));
 const main=require('../app/main.cjs');const pause=ms=>new Promise(r=>setTimeout(r,ms));const errors=[];
-(async()=>{await main.ready;const pet=main.getPet();pet.webContents.on('console-message',(_event,details)=>{if(details.level==='error'){errors.push(details.message);console.log('CONSOLE ERROR',details.message);}});await pause(300);
+(async()=>{await main.ready;const pet=main.getPet();pet.webContents.on('console-message',(_event,level,message)=>{if(level===2||level===3||level==='error')errors.push(message);});await pause(300);
  assert.equal(pet.isAlwaysOnTop(),true);assert.deepEqual(pet.getSize(),[184,218]);const bounds=pet.getBounds(),area=screen.getPrimaryDisplay().workArea;assert.ok(bounds.x+bounds.width<=area.x+area.width);assert.ok(bounds.y+bounds.height<=area.y+area.height);
  const before=await pet.webContents.executeJavaScript('window.sprout.get()');assert.equal(before.wilted,true);
  await pet.webContents.executeJavaScript('document.querySelector("#plant").click()');await pause(1600);
