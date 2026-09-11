@@ -13,7 +13,7 @@ $('#plant').addEventListener('click',async()=>{if(busy)return;if(!state.onboarde
 $('#collect').addEventListener('click',async()=>{const r=await sprout.act('collect');if(r.ok){render(r.state);say(`收好啦，+${r.collected} 枚金币！`);}else say(r.error);});
 $('#shop').addEventListener('click',()=>sprout.panel('shop'));$('#settings').addEventListener('click',()=>sprout.panel(state.onboarded?'settings':'welcome'));
 document.addEventListener('contextmenu',e=>{e.preventDefault();sprout.menu();});
-// Only the small visible plant and controls capture clicks; the rest passes through.
+// Keep the two top controls visible so they can be clicked without chasing a hover target.
 document.addEventListener('mousemove',e=>{const hit=!!e.target.closest('[data-interactive]');document.body.classList.toggle('hovered',hit);});
 sprout.onState(render);sprout.get().then(render).catch(()=>say('无法载入小花，请重新启动。'));
 
