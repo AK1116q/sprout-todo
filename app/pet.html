@@ -1,10 +1,9 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'"><title>小芽 · 桌宠</title><link rel="stylesheet" href="pet.css"></head><body>
 <div id="pet-shell">
- <div class="tools" data-interactive><span class="drag-handle" title="按住这里拖动小芽">⠿</span><button id="shop" title="小小商店" aria-label="打开商店">◈ <span id="coins">0</span></button><button id="settings" title="提醒设置" aria-label="打开设置">⚙</button></div>
+ <div class="tools" data-interactive><button id="shop" title="小小商店" aria-label="打开商店">◈ <span id="coins">0</span></button><button id="settings" title="提醒设置" aria-label="打开设置">⚙</button></div>
  <div id="bubble" class="bubble" role="status" aria-live="polite">先喝口水，再给我浇水</div>
  <button id="plant" class="plant" data-interactive aria-label="我喝水了，给小花浇水"><canvas id="plant-canvas" width="64" height="64"></canvas></button>
  <button id="collect" class="collect" data-interactive hidden title="收集小花送你的金币"><canvas id="coin-canvas" width="32" height="32"></canvas><span id="pending">+5</span></button>
- <button id="stand" class="stand" data-interactive hidden>↟ 我已起身</button>
  <div id="footnote" class="footnote">喝水后，点一下小花</div>
 </div><script src="pixels.js"></script><script src="pet.js"></script></body></html>
 
