@@ -15,7 +15,7 @@ function petHome(){const area=screen.getPrimaryDisplay().workArea;pet.setPositio
 function clampPet(){if(!pet||pet.isDestroyed())return;const b=pet.getBounds(),a=screen.getDisplayMatching(b).workArea;pet.setPosition(Math.max(a.x,Math.min(b.x,a.x+a.width-b.width)),Math.max(a.y,Math.min(b.y,a.y+a.height-b.height)));}
 function showPet(){if(pet&&!pet.isDestroyed()){pet.showInactive();pet.setAlwaysOnTop(true,'floating');}}
 function openPanel(page='settings'){
- if(!['settings','shop','welcome'].includes(page))throw new Error('未知面板');
+ if(!['settings','shop','report','welcome'].includes(page))throw new Error('未知面板');
  if(panel&&!panel.isDestroyed()){panel.webContents.send('sprout:page',page);panel.show();panel.focus();return;}
  const area=screen.getDisplayMatching(pet.getBounds()).workArea,b=pet.getBounds(),width=378,height=536;
  const x=page==='welcome'?Math.round(area.x+(area.width-width)/2):Math.max(area.x,Math.min(b.x-width-8,area.x+area.width-width));
@@ -23,12 +23,12 @@ function openPanel(page='settings'){
  panel=new BrowserWindow({width,height,x,y,show:false,frame:false,resizable:false,maximizable:false,fullscreenable:false,skipTaskbar:true,alwaysOnTop:true,backgroundColor:'#f6f3e9',autoHideMenuBar:true,webPreferences:{preload:path.join(__dirname,'preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true}});
  secure(panel);panel.loadFile(path.join(__dirname,'panel.html'),{query:{page}});panel.once('ready-to-show',()=>{if(!testing)panel.show();});panel.on('closed',()=>{panel=null;});
 }
-function menu(){return Menu.buildFromTemplate([{label:'小芽 · Sprout',enabled:false},{type:'separator'},{label:'显示小芽',click:showPet},{label:'移回屏幕右下角',click:()=>{petHome();showPet();}},{label:'小小商店',click:()=>openPanel('shop')},{label:'提醒设置',click:()=>openPanel('settings')},{type:'separator'},{label:'暂时隐藏',click:()=>pet.hide()},{label:'打开存档文件夹',click:()=>require('electron').shell.openPath(app.getPath('userData'))},{label:'退出小芽',click:()=>app.quit()}]);}
-function tick(){const result=action('tick');if(!result.ok)return;for(const kind of result.due||[]){showPet();if(state.settings.notifications&&Notification.isSupported()&&!testing){const note=new Notification({title:kind==='water'?'小芽有点渴了':'该起来活动一下啦',body:kind==='water'?'先喝口水，再点一下小花，给它浇水。':'站起来走走，回来点「我已起身」。',icon:path.join(__dirname,'../assets/icon.svg'),silent:true});note.on('click',showPet);note.show();}}}
+function menu(){return Menu.buildFromTemplate([{label:'小芽 · Sprout',enabled:false},{type:'separator'},{label:'显示小芽',click:showPet},{label:'移回屏幕右下角',click:()=>{petHome();showPet();}},{label:'小小商店',click:()=>openPanel('shop')},{label:'提醒设置',click:()=>openPanel('settings')},{label:'喝水报告',click:()=>openPanel('report')},{type:'separator'},{label:'暂时隐藏',click:()=>pet.hide()},{label:'打开存档文件夹',click:()=>require('electron').shell.openPath(app.getPath('userData'))},{label:'退出小芽',click:()=>app.quit()}]);}
+function tick(){const result=action('tick');if(!result.ok)return;for(const kind of result.due||[]){showPet();if(kind==='water'&&state.settings.notifications&&Notification.isSupported()&&!testing){const note=new Notification({title:'小芽有点渴了',body:'先喝口水，再点一下小花，给它浇水。',icon:path.join(__dirname,'../assets/icon.svg'),silent:true});note.on('click',showPet);note.show();}}}
 function trusted(event){return [pet,panel].some(w=>w&&!w.isDestroyed()&&w.webContents===event.sender);}
 function register(){
  ipcMain.handle('sprout:get',e=>{if(!trusted(e))throw new Error('Unknown sender');return view(state);});
- ipcMain.handle('sprout:act',(e,type,payload)=>{if(!trusted(e)||!['settings','water','stand','collect','buy'].includes(type))return{ok:false,error:'操作不可用'};const result=action(type,payload);if(result.ok&&type==='settings'){if(panel&&!panel.isDestroyed())panel.close();showPet();}return result;});
+ ipcMain.handle('sprout:act',(e,type,payload)=>{if(!trusted(e)||!['settings','water','collect','buy'].includes(type))return{ok:false,error:'操作不可用'};const result=action(type,payload);if(result.ok&&type==='settings'){if(panel&&!panel.isDestroyed())panel.close();showPet();}return result;});
  ipcMain.handle('sprout:panel',(e,page)=>{if(trusted(e))openPanel(page);});
  ipcMain.on('sprout:close-panel',e=>{if(panel&&e.sender===panel.webContents)panel.close();});
  ipcMain.on('sprout:pointer',(e,interactive)=>{if(pet&&e.sender===pet.webContents&&typeof interactive==='boolean')pet.setIgnoreMouseEvents(!interactive,{forward:true});});
