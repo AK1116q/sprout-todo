@@ -1,16 +1,22 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'"><title>小芽 · Sprout</title><link rel="stylesheet" href="panel.css"></head><body>
-<header><span class="wordmark">✳ 小芽 <small>SPROUT</small></span><button id="close" aria-label="关闭面板">×</button></header>
+<header><span class="wordmark">✳ 小芽 <small>SPROUT</small></span><span class="header-actions"><button id="report-open" aria-label="查看习惯报告">报告</button><button id="close" aria-label="关闭面板">×</button></span></header>
 <main>
  <section id="settings-page">
   <div class="welcome-art"><canvas id="welcome-plant" width="64" height="64"></canvas><div><span class="eyebrow" id="settings-eyebrow">SPROUT SETTINGS</span><h1 id="settings-title">提醒设置</h1></div></div>
   <p id="settings-subtitle" class="subtitle">滚轮调整分钟数，保存即可。</p>
   <form id="settings-form">
    <div class="setting"><div class="setting-top"><label for="water-minutes">喝水提醒</label><label class="switch"><input id="water-enabled" type="checkbox" checked aria-label="开启喝水提醒"><span></span></label></div><div class="interval"><span>每隔</span><input id="water-minutes" type="number" min="1" max="180" value="30" required><span>分钟，喝一口水</span></div></div>
-   <div class="setting"><div class="setting-top"><label for="stand-minutes">起身提醒</label><label class="switch"><input id="stand-enabled" type="checkbox" checked aria-label="开启起身提醒"><span></span></label></div><div class="interval"><span>每隔</span><input id="stand-minutes" type="number" min="1" max="180" value="50" required><span>分钟，站起来走走</span></div></div>
    <label class="notification-setting"><input id="notifications" type="checkbox" checked> 系统通知</label>
    <button id="save-settings" class="primary" type="submit">开始陪伴</button>
    <p class="fineprint">喝水后点击小花即可浇水</p>
   </form>
+ </section>
+ <section id="report-page" hidden>
+  <div class="shop-heading"><div><span class="eyebrow">WATER HABIT</span><h1>喝水报告</h1></div><button id="report-back" class="back-button">设置</button></div>
+  <p class="subtitle">根据你的提醒与浇水记录生成。</p>
+  <div class="report-grid"><div class="metric"><strong id="report-prompts">0</strong><span>次提醒</span></div><div class="metric"><strong id="report-answered">0</strong><span>次已回应</span></div><div class="metric"><strong id="report-average">—</strong><span>平均回应</span></div><div class="metric"><strong id="report-rate">—</strong><span>5 分钟内回应</span></div></div>
+  <div class="report-note" id="report-note">先完成几次提醒，报告会逐渐有参考价值。</div>
+  <div class="report-detail"><div><span>当前提醒间隔</span><strong id="report-interval">30 分钟</strong></div><div><span>已浇水次数</span><strong id="report-waterings">0</strong></div><div><span>金币</span><strong id="report-coins">0</strong></div></div>
  </section>
  <section id="shop-page" hidden>
   <div class="shop-heading"><div><span class="eyebrow">LITTLE THINGS, LITTLE JOY</span><h1>小小商店</h1></div><span class="wallet">◈ <strong id="wallet">0</strong></span></div>
