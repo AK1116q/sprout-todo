@@ -10,10 +10,10 @@ const CATALOG = [
  {id:'can-sky',type:'can',name:'晴空壶',price:20,color:'#84accb',detail:'像晴天一样轻盈。'},
  {id:'flower-daisy',type:'flower',name:'小雏菊',price:0,color:'#fff3d1',detail:'一朵认真陪伴你的小花。'},
  {id:'flower-tulip',type:'flower',name:'郁金香',price:15,color:'#e899ab',detail:'温柔，也有向上的力量。'},
- {id:'flower-sun',type:'flower',name:'向日葵',price:20,color:'#f1c052',detail:'今天也向着光生长。'},
+ {id:'flower-sun',type:'flower',name:'向日葵',price:0,color:'#f1c052',detail:'今天也向着光生长。'},
  {id:'flower-lavender',type:'flower',name:'薰衣草',price:25,color:'#a393d0',detail:'给忙碌的一天一点宁静。'}
 ];
-const initialEquipment={pot:'pot-clay',can:'can-mint',flower:'flower-daisy'};
+const initialEquipment={pot:'pot-clay',can:'can-mint',flower:'flower-sun'};
 const clone=s=>JSON.parse(JSON.stringify(s));
 function initial(now=Date.now()){return{version:1,onboarded:false,settings:{waterMinutes:30,standMinutes:50,waterEnabled:true,standEnabled:true,notifications:true},coins:0,pendingCoins:0,waterings:0,rewardProgress:0,owned:Object.values(initialEquipment),equipped:{...initialEquipment},lastWaterAt:null,nextWaterAt:now,nextStandAt:now+50*60000,waterNotified:false,standNotified:false,standCount:0};}
 function validate(s){
